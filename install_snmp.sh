@@ -14,7 +14,7 @@ function snmpdinstall {
   cp distro /usr/local/bin/distro
   chmod +x /usr/local/bin/distro
   echo -e "${YELLOW}Reconfiguring local snmpd${NC}"
-  echo "agentAddress  udp:127.0.0.1:161" > /etc/snmp/snmpd.conf
+  echo "agentAddress  udp:161" > /etc/snmp/snmpd.conf
   snmpcommunity="$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-15};echo;)"
   echo "rocommunity $snmpcommunity" >> /etc/snmp/snmpd.conf
   
@@ -44,8 +44,8 @@ function snmpdinstall {
   
   service snmpd restart
   
-  echo -e "${YELLOW}Adding localhost to Observium${NC}"
-  echo -e "${GREEN}DONE! UNIX-agent is installed and this server is now monitored by Observium${NC}"
+  echo -e "${YELLOW}Use Community String: ${snmpcommunity}${NC}"
+  echo -e "${GREEN}DONE! UNIX-agent is installed and this server can be monitored by Observium${NC}"
 }
 
 if [[ $EUID -ne 0 ]]; then
